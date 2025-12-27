@@ -68,7 +68,7 @@ CATEGORIES = [
 
 
 @app.route("/", methods=["GET", "POST"])
-def index():
+def user():
     category_results = []
     submitted = False
 
@@ -127,10 +127,40 @@ def index():
 
 
     return render_template(
-        "index.html",
+        "user.html",
         categories=category_results,
         all_ok=all_ok,
         submitted=submitted
+    )
+
+@app.route("/admin", methods=["GET", "POST"])
+def admin():
+    if request.method == "POST":
+        # 学生会が上限を変更
+        for category in CATEGORIES:
+            new_budget = request.form.get(f"budget_{category['id']}")
+            if new_budget is not None:
+                category["budget"] = int(new_budget)
+
+    # 各区分の合計・残金を計算
+    category_results = []
+    grand_total = 0
+    for category in CATEGORIES:
+        total = sum(club.get("value", 0) for club in category["clubs"])
+        remaining = category["budget"] - total
+        category_results.append({
+            "id": category["id"],
+            "name": category["name"],
+            "budget": category["budget"],
+            "total": total,
+            "remaining": remaining
+        })
+        grand_total += total
+
+    return render_template(
+        "admin.html",
+        categories=category_results,
+        grand_total=grand_total
     )
 
 
