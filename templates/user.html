@@ -24,6 +24,10 @@
             class="form-control"
             min="0"
             value="{{ club.value }}"
+            {% if session.user.role == "user"
+                    and club.id == session.user.club_id %}
+                disabled
+            {% endif %}
         >
     </div>
     {% endfor %}
@@ -90,6 +94,11 @@
         </button>
     {% endif %}
 </div>
+
+<a href="{{ url_for('auth.logout') }}"
+   class="btn btn-outline-danger">
+   ログアウト
+</a>
 
 
 </form>

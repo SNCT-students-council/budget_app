@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ログイン</title>
+</head>
+<body>
+<h1>ログイン</h1>
+
+<form method="post">
+    <label>ID</label><br>
+    <input type="text" name="user_id"><br><br>
+
+    <label>パスワード</label><br>
+    <input type="password" name="password"><br><br>
+
+    <button type="submit">ログイン</button>
+</form>
+
+{% if error %}
+<p style="color:red">{{ error }}</p>
+{% endif %}
+</body>
+</html>
