@@ -46,14 +46,23 @@
     上限を更新
 </button>
 
-<a href="{{ url_for('auth.logout') }}"
-   class="btn btn-outline-danger">
-   ログアウト
+<!-- ✅ user.html へ戻る（/ は使わない！） -->
+<a href="{{ url_for('user.user') }}"
+   class="btn btn-secondary mt-3">
+   記入者画面に戻る
 </a>
 
-</form>
+<!-- ✅ DB確認画面 -->
+<a href="{{ url_for('admin.admin_db') }}"
+   class="btn btn-outline-info mt-3 ms-2">
+   DB確認画面へ
+</a>
 
-<a href="/" class="btn btn-secondary mt-3">記入者画面に戻る</a>
+<!-- ✅ ログアウト -->
+<a href="{{ url_for('auth.logout') }}"
+   class="btn btn-outline-danger mt-3 ms-2">
+   ログアウト
+</a>
 
 </body>
 </html>

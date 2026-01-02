@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, request, session
 from auth.decorators import login_required, role_required
 from data.categories import CATEGORIES
 from permissions.rules import allowed_categories
+from db.connection import get_db
 
 user_bp = Blueprint("user", __name__)
 
@@ -12,6 +13,7 @@ user_bp = Blueprint("user", __name__)
 
 def user():
     role = session["user"]["role"]
+    user_id = session["user"]["id"]
     allowed = allowed_categories(role)
 
     category_results = []
@@ -57,7 +59,25 @@ def user():
 
     all_ok = all(c["ok"] for c in category_results)
 
+    # ===== DB保存 =====
     if request.method == "POST" and "submit" in request.form and all_ok:
+        db = get_db()
+
+        for category in category_results:
+            for club in category["clubs"]:
+                db.execute("""
+                    INSERT INTO submissions
+                    (user_id, role, category_id, club_id, amount)
+                    VALUES (?, ?, ?, ?, ?)
+                """, (
+                    user_id,
+                    role,
+                    category["id"],
+                    club["id"],
+                    club["value"]
+                ))
+
+        db.commit()
         submitted = True
 
     return render_template(
