@@ -1,9 +1,7 @@
 services:
   - type: web
     name: budget-app
-    env: python
+    runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
-    runtime: python
-    pythonVersion: 3.11.9
