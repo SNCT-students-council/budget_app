@@ -1,13 +1,13 @@
 # db/connection.py
-import psycopg2
-from psycopg2.extras import RealDictCursor
+import psycopg
+from psycopg.rows import dict_row
 from flask import current_app, g
 
 def get_db():
     if "db" not in g:
-        g.db = psycopg2.connect(
+        g.db = psycopg.connect(
             current_app.config["DATABASE_URL"],
-            cursor_factory=RealDictCursor
+            row_factory=dict_row
         )
     return g.db
 
