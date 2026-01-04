@@ -3,10 +3,11 @@ from db.init import init_db
 from auth.routes import auth_bp
 from user.routes import user_bp
 from admin.routes import admin_bp
+import os
 
 app = Flask(__name__)
-app.secret_key = "secret-key"
-app.config["DATABASE"] = "instance/budget.db"
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret")
+app.config["DATABASE_URL"] = os.environ.get("DATABASE_URL")
 
 init_db(app)
 

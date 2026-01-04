@@ -25,6 +25,7 @@
             <th>カテゴリID</th>
             <th>部活ID</th>
             <th>金額</th>
+            <th>日時</th>
         </tr>
     </thead>
     <tbody>
@@ -36,6 +37,7 @@
             <td>{{ row.category_id }}</td>
             <td>{{ row.club_id }}</td>
             <td>{{ row.amount }}</td>
+            <td>{{ row.timestamp }}</td>
         </tr>
         {% endfor %}
         {% if rows|length == 0 %}
